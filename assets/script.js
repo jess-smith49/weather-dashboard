@@ -21,7 +21,6 @@ function getCurrentWeather(){
         let cityName = data.name;
         let cityIcon = data.weather[0].icon;
 
-        //console.log(cityIcon);
         //url endpoint for icon variable
         let iconDisplay = "http://openweathermap.org/img/w/" + cityIcon + ".png";
 
@@ -29,6 +28,12 @@ function getCurrentWeather(){
         let cityTemperature = data.main.temp;
         let cityHumidity = data.main.humidity;
         let cityWindSpeed = data.wind.speed;
+
+
+        //variable long and lat
+        let cityLat = data.coord.lon;
+        let cityLon = data.coord.lat;
+
         //let cityUV = 
         let currentWeatherData = 
         `
@@ -122,7 +127,6 @@ function getCurrentWeather(){
         var previousSearch = $("#previous-search");
         let searchHistory = `
         <li class = "border bg-white">${searchTermEl}</li>
-        </br>
         `
         previousSearch.append(searchHistory);
 

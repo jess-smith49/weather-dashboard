@@ -37,7 +37,7 @@ function getCurrentWeather(){
             <h2>${cityName}  DATE   <img src=${iconDisplay}>
             </h2>
         </div>
-        <div>Temperature: ${cityTemperature}</div>
+        <div>Temperature: ${cityTemperature}°</div>
         <div>Humidity: ${cityHumidity} %</div>
         <div>Wind Speed: ${cityWindSpeed} MPH</div>
         </div>
@@ -71,12 +71,6 @@ function getCurrentWeather(){
                     //get the class for section
                     let dailyForecastSection = $("#card-container");
     
-                    let forecast = $("#forecast");
-
-                    let forecastTitle = `<h2> 5-Day Forecast</h2>`
-                    forecast.append(forecastTitle);
-
-
                                 //for loop for forecast
                                 for (var i = 0; i < 5; i ++){
 
@@ -95,15 +89,15 @@ function getCurrentWeather(){
 
                                 //creating the cards
                                 let dailyCards = `
-                                <div class = "col-sm-6 bg-primary text-white"
-                                <div class="card" style="width: 18rem;">
-                                    <div class="card-body">
+                                <div class = "col-sm-2 text-white"
+                                <div class="card bg-primary" style="width: 40rem;">
+                                    <div class="card-body bg-primary">
                                         <h5 class="card-title">Date</h5>
                                         <img src=${icon}>
-                                        <p class="card-text">Temp: ${forecastTemp}</p>
-                                        <p class="card-text">Humiditiy: ${forecastHumidity}</p>
+                                        <p class="card-text">Temp: ${forecastTemp}°F</p>
+                                        <p class="card-text">Humiditiy: ${forecastHumidity} %</p>
                                     </div>
-                                    </div>
+                                </div>
                                 </div>
                                 `
                                 //appending the card
@@ -127,9 +121,13 @@ function getCurrentWeather(){
         //save to search history
         var previousSearch = $("#previous-search");
         let searchHistory = `
-        <li class = "border">${searchTermEl}</li>
+        <li class = "border bg-white">${searchTermEl}</li>
         </br>
         `
         previousSearch.append(searchHistory);
+
+
+        localStorage.setItem("cities", searchTermEl);
+        localStorage.getItem(searchTermEl);
     });
     

@@ -2,6 +2,9 @@
 function getCurrentWeather(){
     var searchTermEl = $("#city-name").val().trim();
     event.preventDefault();
+
+    //clears out current weather section for new search
+    $("#current-weather").empty();
     
     fetch (
         `http://api.openweathermap.org/data/2.5/weather?q=${searchTermEl}&appid=519a795400f3f1c248480dfcc8e3bf80&units=imperial`
@@ -50,6 +53,9 @@ function getCurrentWeather(){
         //get element input
         var searchTermEl = $("#city-name").val().trim();
         event.preventDefault();
+
+        //clears out cards for new search
+        $("#card-container").empty();
         //get data for 5 day forecast
         fetch (
             `http://api.openweathermap.org/data/2.5/forecast?q=${searchTermEl}&appid=519a795400f3f1c248480dfcc8e3bf80&units=imperial`
@@ -70,8 +76,8 @@ function getCurrentWeather(){
                         let forecastTemp = data.list[i].main.temp;
                         //console.log(forecastTemp);
     
-                        //let forecastImg = data.list[i].weather[i].icon;
-                        //console.log(forecastImg);
+                        let forecastImg = data.list[i].weather[0].icon;
+                        console.log(forecastImg);
                         
                         let forecastHumidity = data.list[i].main.humidity;
                         //console.log(forecastHumidity);

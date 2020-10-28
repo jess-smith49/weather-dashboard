@@ -29,9 +29,7 @@ function getCurrentWeather(){
         `
         <div class = "border">
         <div>
-            <h2>${cityName} 
-            DATE
-            <img src = ${cityIcon}>
+            <h2>${cityName}  DATE   <img src = ${cityIcon}>
             </h2>
         </div>
         <div>Temperature: ${cityTemperature}</div>
@@ -77,24 +75,25 @@ function getCurrentWeather(){
                         //console.log(forecastTemp);
     
                         let forecastImg = data.list[i].weather[0].icon;
-                        console.log(forecastImg);
+                        //console.log(forecastImg);
                         
+                        //getting icon from the url and adding the type of icon to the end of it
+                        let icon = "http://openweathermap.org/img/w/" + forecastImg + ".png";
+
                         let forecastHumidity = data.list[i].main.humidity;
                         //console.log(forecastHumidity);
 
                         //creating the cards
                         let dailyCards = `
-                        <div class = "row">
                         <div class = "col-sm-6"
                         <div class="card" style="width: 18rem;">
                             <div class="card-body">
                                 <h5 class="card-title">Date</h5>
-                                
+                                <img src=${icon}>
                                 <p class="card-text">Temp: ${forecastTemp}</p>
                                 <p class="card-text">Humiditiy: ${forecastHumidity}</p>
                             </div>
                             </div>
-                        </div>
                         </div>
                         `
                         //appending the card

@@ -66,14 +66,16 @@ function getCurrentWeather(){
                         let forecastTemp = data.list[0].main.temp;
                         //console.log(forecastTemp);
     
-                        //let forecastImg = data.list.weather[0].icon;
-                        //console.log(forecastImg);
+                        let forecastImg = data.list[0].weather[0].icon;
+                        console.log(forecastImg);
                         
                         let forecastHumidity = data.list[0].main.humidity;
                         //console.log(forecastHumidity);
     
                         //for loop for forecast
                         for (var i = 0; i < 5; i ++){
+
+
                         //creating the cards
                         let dailyCards = `
                         <div class = "row">
@@ -81,6 +83,7 @@ function getCurrentWeather(){
                         <div class="card" style="width: 18rem;">
                             <div class="card-body">
                                 <h5 class="card-title">Date</h5>
+                                <img src=${forecastImg}>
                                 <p class="card-text">Temp: ${forecastTemp}</p>
                                 <p class="card-text">Humiditiy: ${forecastHumidity}</p>
                             </div>

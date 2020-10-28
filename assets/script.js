@@ -17,10 +17,15 @@ function getCurrentWeather(){
     
         let currentWeatherSection = $("#current-weather");
     
-    
+        //creating data variables
         let cityName = data.name;
-        let cityIcon = data.weather.icon;
-        //have to get to normal measure
+        let cityIcon = data.weather[0].icon;
+
+        //console.log(cityIcon);
+        //url endpoint for icon variable
+        let iconDisplay = "http://openweathermap.org/img/w/" + cityIcon + ".png";
+
+
         let cityTemperature = data.main.temp;
         let cityHumidity = data.main.humidity;
         let cityWindSpeed = data.wind.speed;
@@ -29,7 +34,7 @@ function getCurrentWeather(){
         `
         <div class = "border">
         <div>
-            <h2>${cityName}  DATE   <img src = ${cityIcon}>
+            <h2>${cityName}  DATE   <img src=${iconDisplay}>
             </h2>
         </div>
         <div>Temperature: ${cityTemperature}</div>
@@ -66,39 +71,44 @@ function getCurrentWeather(){
                     //get the class for section
                     let dailyForecastSection = $("#card-container");
     
-                        
-                        //for loop for forecast
-                        for (var i = 0; i < 5; i ++){
+                    let forecast = $("#forecast");
 
-                        //data
-                        let forecastTemp = data.list[i].main.temp;
-                        //console.log(forecastTemp);
-    
-                        let forecastImg = data.list[i].weather[0].icon;
-                        //console.log(forecastImg);
-                        
-                        //getting icon from the url and adding the type of icon to the end of it
-                        let icon = "http://openweathermap.org/img/w/" + forecastImg + ".png";
+                    let forecastTitle = `<h2> 5-Day Forecast</h2>`
+                    forecast.append(forecastTitle);
 
-                        let forecastHumidity = data.list[i].main.humidity;
-                        //console.log(forecastHumidity);
 
-                        //creating the cards
-                        let dailyCards = `
-                        <div class = "col-sm-6"
-                        <div class="card" style="width: 18rem;">
-                            <div class="card-body">
-                                <h5 class="card-title">Date</h5>
-                                <img src=${icon}>
-                                <p class="card-text">Temp: ${forecastTemp}</p>
-                                <p class="card-text">Humiditiy: ${forecastHumidity}</p>
-                            </div>
-                            </div>
-                        </div>
-                        `
-                        //appending the card
-                        dailyForecastSection.append(dailyCards);
-                    }
+                                //for loop for forecast
+                                for (var i = 0; i < 5; i ++){
+
+                                //data
+                                let forecastTemp = data.list[i].main.temp;
+                                //console.log(forecastTemp);
+            
+                                let forecastImg = data.list[i].weather[0].icon;
+                                //console.log(forecastImg);
+                                
+                                //getting icon from the url and adding the type of icon to the end of it
+                                let icon = "http://openweathermap.org/img/w/" + forecastImg + ".png";
+
+                                let forecastHumidity = data.list[i].main.humidity;
+                                //console.log(forecastHumidity);
+
+                                //creating the cards
+                                let dailyCards = `
+                                <div class = "col-sm-6 bg-primary text-white"
+                                <div class="card" style="width: 18rem;">
+                                    <div class="card-body">
+                                        <h5 class="card-title">Date</h5>
+                                        <img src=${icon}>
+                                        <p class="card-text">Temp: ${forecastTemp}</p>
+                                        <p class="card-text">Humiditiy: ${forecastHumidity}</p>
+                                    </div>
+                                    </div>
+                                </div>
+                                `
+                                //appending the card
+                                dailyForecastSection.append(dailyCards);
+                            }
                 
     
             })

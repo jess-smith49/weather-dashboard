@@ -76,7 +76,7 @@ function getCurrentWeather(cityLat, cityLon){
                         let cityTemperature = data.main.temp;
                         let cityHumidity = data.main.humidity;
                         let cityWindSpeed = data.wind.speed;       
-                    let cityUV = getUVIndex(cityLat,cityLon, cityName, cityIcon, iconDisplay,cityTemperature,cityHumidity,cityWindSpeed);
+                        let cityUV = getUVIndex(cityLat,cityLon, cityName, cityIcon, iconDisplay,cityTemperature,cityHumidity,cityWindSpeed);
                         //currentWeatherSection.append(currentWeatherData);
             
         });

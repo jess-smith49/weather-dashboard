@@ -1,5 +1,31 @@
+//getting current date - learned off stack overflow resource
+//new date object
+var today = new Date();
+//uses new object with javascript functions to get the values
+//getDate returns day of month, getMonth returns month value -- needs + 1 because January starts at 0, getFullYear returns the current year value
+var date =  (today.getMonth()+ 1) + '/' + today.getDate() + '/' + today.getFullYear();
+//console.log to verify date shows in format I need
+//console.log(date);
+
+//Function get get UV Index
+function getUVIndex(){
+
+    fetch(
+        `http://api.openweathermap.org/data/2.5/uvi?lat=${cityLat}&lon=${cityLon}&appid=519a795400f3f1c248480dfcc8e3bf80`
+    )
+    .then (function(response){
+        return response.json();
+    })
+    .then (function(data){
+        console.log(data)
+    })
+}
+
+
+
+
 //Function to display Current Weather
-function getCurrentWeather(){
+function getCurrentWeather(cityLat, cityLon){
     var searchTermEl = $("#city-name").val().trim();
     event.preventDefault();
 
@@ -11,45 +37,47 @@ function getCurrentWeather(){
         )
         .then(function(response){
             return response.json();
+            
+        
         })
         .then(function(data){
             console.log(data);
-    
-        let currentWeatherSection = $("#current-weather");
-    
-        //creating data variables
-        let cityName = data.name;
-        let cityIcon = data.weather[0].icon;
+                        //variable long and lat
+                        let cityLat = data.coord.lon;
+                        let cityLon = data.coord.lat;
+                        console.log(cityLat);
+                        console.log(cityLon);
 
-        //url endpoint for icon variable
-        let iconDisplay = "http://openweathermap.org/img/w/" + cityIcon + ".png";
+                        let currentWeatherSection = $("#current-weather");
+                    
+                        //creating data variables
+                        let cityName = data.name;
+                        let cityIcon = data.weather[0].icon;
 
+                        //url endpoint for icon variable
+                        let iconDisplay = "http://openweathermap.org/img/w/" + cityIcon + ".png";
 
-        let cityTemperature = data.main.temp;
-        let cityHumidity = data.main.humidity;
-        let cityWindSpeed = data.wind.speed;
+                        let cityTemperature = data.main.temp;
+                        let cityHumidity = data.main.humidity;
+                        let cityWindSpeed = data.wind.speed;       
 
-
-        //variable long and lat
-        let cityLat = data.coord.lon;
-        let cityLon = data.coord.lat;
-
-        //let cityUV = 
-        let currentWeatherData = 
-        `
-        <div class = "border">
-        <div>
-            <h2>${cityName}  DATE   <img src=${iconDisplay}>
-            </h2>
-        </div>
-        <div>Temperature: ${cityTemperature}°</div>
-        <div>Humidity: ${cityHumidity} %</div>
-        <div>Wind Speed: ${cityWindSpeed} MPH</div>
-        </div>
-        </br>
-        `
-        
-        currentWeatherSection.append(currentWeatherData);
+                        //let cityUV = 
+                        let currentWeatherData = 
+                        `
+                        <div class = "border">
+                        <div>
+                            <h2>${cityName}  ${date}   <img src=${iconDisplay}>
+                            </h2>
+                        </div>
+                        <div>Temperature: ${cityTemperature}°</div>
+                        <div>Humidity: ${cityHumidity} %</div>
+                        <div>Wind Speed: ${cityWindSpeed} MPH</div>
+                        <div>UV Index:</div>
+                        </div>
+                        </br>
+                        `
+                        
+                        currentWeatherSection.append(currentWeatherData);
             
         });
     
@@ -75,7 +103,8 @@ function getCurrentWeather(){
                 console.log(data);
                     //get the class for section
                     let dailyForecastSection = $("#card-container");
-    
+
+                    
                                 //for loop for forecast
                                 for (var i = 0; i < 5; i ++){
 
@@ -97,7 +126,7 @@ function getCurrentWeather(){
                                 <div class = "col-sm-2 text-white"
                                 <div class="card bg-primary" style="width: 40rem;">
                                     <div class="card-body bg-primary">
-                                        <h5 class="card-title">Date</h5>
+                                        <h5 class="card-title">${date}</h5>
                                         <img src=${icon}>
                                         <p class="card-text">Temp: ${forecastTemp}°F</p>
                                         <p class="card-text">Humiditiy: ${forecastHumidity} %</p>

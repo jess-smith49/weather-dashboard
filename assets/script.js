@@ -8,7 +8,7 @@ var date =  (today.getMonth()+ 1) + '/' + today.getDate() + '/' + today.getFullY
 //console.log(date);
 
 //Function get get UV Index
-function getUVIndex(){
+function getUVIndex(cityLat,cityLon){
 
     fetch(
         `http://api.openweathermap.org/data/2.5/uvi?lat=${cityLat}&lon=${cityLon}&appid=519a795400f3f1c248480dfcc8e3bf80`
@@ -18,6 +18,7 @@ function getUVIndex(){
     })
     .then (function(data){
         console.log(data)
+        let index = `<div>UV Index: </div>`
     })
 }
 
@@ -47,7 +48,7 @@ function getCurrentWeather(cityLat, cityLon){
                         let cityLon = data.coord.lat;
                         console.log(cityLat);
                         console.log(cityLon);
-
+                        getUVIndex(cityLat,cityLon);
                         let currentWeatherSection = $("#current-weather");
                     
                         //creating data variables

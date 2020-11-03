@@ -8,7 +8,7 @@ var date =  (today.getMonth()+ 1) + '/' + today.getDate() + '/' + today.getFullY
 //console.log(date);
 
 //Function get get UV Index
-function getUVIndex(cityLat,cityLon, cityName, date, iconDisplay,cityTemperature, cityHumidity, cityUV){
+function getUVIndex(cityLat,cityLon, cityName, date, iconDisplay,cityTemperature, cityHumidity, cityWindSpeed){
 
     fetch(
         `http://api.openweathermap.org/data/2.5/uvi?lat=${cityLat}&lon=${cityLon}&appid=519a795400f3f1c248480dfcc8e3bf80`
@@ -18,18 +18,22 @@ function getUVIndex(cityLat,cityLon, cityName, date, iconDisplay,cityTemperature
     })
     .then (function(data){
         console.log(data)
+        //getting UV index value
+        let index = data.value;
+        
         let currentWeatherSection = $("#current-weather");
+        //creating card
         let currentWeatherData = 
                         `
                         <div class = "border">
                         <div>
-                            <h2>${cityName}  ${date}   <img src=${iconDisplay}>
+                            <h2>${cityName} ${date} <img src=${iconDisplay}>
                             </h2>
                         </div>
                         <div>Temperature: ${cityTemperature}°</div>
                         <div>Humidity: ${cityHumidity} %</div>
                         <div>Wind Speed: ${cityWindSpeed} MPH</div>
-                        <div>UV Index:${cityUV}</div>
+                        <div>UV Index:${index}</div>
                         </div>
                         </br>
                         `
@@ -76,7 +80,7 @@ function getCurrentWeather(cityLat, cityLon){
                         let cityTemperature = data.main.temp;
                         let cityHumidity = data.main.humidity;
                         let cityWindSpeed = data.wind.speed;       
-                        let cityUV = getUVIndex(cityLat,cityLon, cityName, cityIcon, iconDisplay,cityTemperature,cityHumidity,cityWindSpeed);
+                        getUVIndex(cityLat,cityLon, cityName, cityIcon, iconDisplay,cityTemperature,cityHumidity,cityWindSpeed);
                         //currentWeatherSection.append(currentWeatherData);
             
         });

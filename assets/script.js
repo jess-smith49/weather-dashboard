@@ -8,7 +8,7 @@ var date =  (today.getMonth()+ 1) + '/' + today.getDate() + '/' + today.getFullY
 //console.log(date);
 
 //Function get get UV Index
-function getUVIndex(cityLat,cityLon){
+function getUVIndex(cityLat,cityLon, cityName, date, iconDisplay,cityTemperature, cityHumidity, cityUV){
 
     fetch(
         `http://api.openweathermap.org/data/2.5/uvi?lat=${cityLat}&lon=${cityLon}&appid=519a795400f3f1c248480dfcc8e3bf80`
@@ -18,7 +18,22 @@ function getUVIndex(cityLat,cityLon){
     })
     .then (function(data){
         console.log(data)
-        let index = `<div>UV Index: </div>`
+        let currentWeatherSection = $("#current-weather");
+        let currentWeatherData = 
+                        `
+                        <div class = "border">
+                        <div>
+                            <h2>${cityName}  ${date}   <img src=${iconDisplay}>
+                            </h2>
+                        </div>
+                        <div>Temperature: ${cityTemperature}°</div>
+                        <div>Humidity: ${cityHumidity} %</div>
+                        <div>Wind Speed: ${cityWindSpeed} MPH</div>
+                        <div>UV Index:${cityUV}</div>
+                        </div>
+                        </br>
+                        `
+                        currentWeatherSection.append(currentWeatherData);
     })
 }
 
@@ -48,8 +63,8 @@ function getCurrentWeather(cityLat, cityLon){
                         let cityLon = data.coord.lat;
                         console.log(cityLat);
                         console.log(cityLon);
-                        getUVIndex(cityLat,cityLon);
-                        let currentWeatherSection = $("#current-weather");
+                        
+                        //let currentWeatherSection = $("#current-weather");
                     
                         //creating data variables
                         let cityName = data.name;
@@ -61,24 +76,8 @@ function getCurrentWeather(cityLat, cityLon){
                         let cityTemperature = data.main.temp;
                         let cityHumidity = data.main.humidity;
                         let cityWindSpeed = data.wind.speed;       
-
-                        //let cityUV = 
-                        let currentWeatherData = 
-                        `
-                        <div class = "border">
-                        <div>
-                            <h2>${cityName}  ${date}   <img src=${iconDisplay}>
-                            </h2>
-                        </div>
-                        <div>Temperature: ${cityTemperature}°</div>
-                        <div>Humidity: ${cityHumidity} %</div>
-                        <div>Wind Speed: ${cityWindSpeed} MPH</div>
-                        <div>UV Index:</div>
-                        </div>
-                        </br>
-                        `
-                        
-                        currentWeatherSection.append(currentWeatherData);
+                    let cityUV = getUVIndex(cityLat,cityLon, cityName, cityIcon, iconDisplay,cityTemperature,cityHumidity,cityWindSpeed);
+                        //currentWeatherSection.append(currentWeatherData);
             
         });
     

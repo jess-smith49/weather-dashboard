@@ -8,7 +8,7 @@ var date =  (today.getMonth()+ 1) + '/' + today.getDate() + '/' + today.getFullY
 //console.log(date);
 
 //Function get get UV Index
-function getUVIndex(cityLat,cityLon, cityName, date, iconDisplay,cityTemperature, cityHumidity, cityWindSpeed){
+function getUVIndex(cityLat,cityLon, cityName, date, iconDisplay, cityTemperature, cityHumidity, cityWindSpeed){
 
     fetch(
         `http://api.openweathermap.org/data/2.5/uvi?lat=${cityLat}&lon=${cityLon}&appid=519a795400f3f1c248480dfcc8e3bf80`
@@ -20,6 +20,21 @@ function getUVIndex(cityLat,cityLon, cityName, date, iconDisplay,cityTemperature
         console.log(data)
         //getting UV index value
         let index = data.value;
+
+          
+        /*${
+            (() => {
+                if (index < 3){
+                    return `<div class = "bg-success">UV Index: ${index}</div>`
+                }
+                else if(index < 7){
+                    `return <div class = "bg-warning">UV Index: ${index}</div>`
+                }
+                else{
+                    `return <div class = "bg-danger">UV Index: ${index}</div>`
+                }
+            }
+            )}*/
         
         let currentWeatherSection = $("#current-weather");
         //creating card
@@ -33,7 +48,7 @@ function getUVIndex(cityLat,cityLon, cityName, date, iconDisplay,cityTemperature
                         <div>Temperature: ${cityTemperature}°</div>
                         <div>Humidity: ${cityHumidity} %</div>
                         <div>Wind Speed: ${cityWindSpeed} MPH</div>
-                        <div>UV Index:${index}</div>
+                        <div>UV Index: ${index}</div>
                         </div>
                         </br>
                         `
@@ -45,7 +60,7 @@ function getUVIndex(cityLat,cityLon, cityName, date, iconDisplay,cityTemperature
 
 
 //Function to display Current Weather
-function getCurrentWeather(cityLat, cityLon){
+function getCurrentWeather(){
     var searchTermEl = $("#city-name").val().trim();
     event.preventDefault();
 
@@ -67,6 +82,7 @@ function getCurrentWeather(cityLat, cityLon){
                         let cityLon = data.coord.lat;
                         console.log(cityLat);
                         console.log(cityLon);
+                        
                         
                         //let currentWeatherSection = $("#current-weather");
                     
@@ -127,7 +143,7 @@ function getCurrentWeather(cityLat, cityLon){
 
                                 //creating the cards
                                 let dailyCards = `
-                                <div class = "col-sm-2 text-white"
+                                <div class = "col-sm-3 text-white"
                                 <div class="card bg-primary" style="width: 40rem;">
                                     <div class="card-body bg-primary">
                                         <h5 class="card-title">${date}</h5>
@@ -147,7 +163,7 @@ function getCurrentWeather(cityLat, cityLon){
     };
     
     
-    
+    function search (){  
     $(".search").click(function(){
         //console.log("clicked");
         getCurrentWeather(); 
@@ -163,8 +179,11 @@ function getCurrentWeather(cityLat, cityLon){
         `
         previousSearch.append(searchHistory);
 
+            localStorage.setItem("cities", searchTermEl);
+            localStorage.getItem(searchTermEl);
+        
+        
+     });
+    }
 
-        localStorage.setItem("cities", searchTermEl);
-        localStorage.getItem(searchTermEl);
-    });
-    
+    search();

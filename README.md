@@ -13,6 +13,10 @@ The techonologies used in this application were the OpenWeatherMap API for UV In
 Possible future development may include an image of the city towards the top of the page, if I can find an API avaialble for that feature. As well as input validation messages.
 
 ## Link to Deployed Application
-
+![GitHub](https://jess-smith49.github.io/weather-dashboard/)
 
 ## Screenshots
+
+![Screenshot](/images/landing-page.png)
+![Screenshot](/images/example_city.png)
+

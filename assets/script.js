@@ -119,7 +119,7 @@ function getCurrentWeather(searchTermEl){
         $("#card-container").empty();
         //get data for 5 day forecast
         fetch (
-            `http://api.openweathermap.org/data/2.5/forecast?q=${searchTermEl}&appid=519a795400f3f1c248480dfcc8e3bf80&units=imperial`
+            `https://api.openweathermap.org/data/2.5/forecast?q=${searchTermEl}&appid=519a795400f3f1c248480dfcc8e3bf80&units=imperial`
             )
             .then(function(response){
                 return response.json();

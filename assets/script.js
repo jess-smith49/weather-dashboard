@@ -97,7 +97,7 @@ function getCurrentWeather(searchTermEl){
                         let cityIcon = data.weather[0].icon;
 
                         //url endpoint for icon variable
-                        let iconDisplay = "http://openweathermap.org/img/w/" + cityIcon + ".png";
+                        let iconDisplay = "https://openweathermap.org/img/w/" + cityIcon + ".png";
 
                         let cityTemperature = data.main.temp;
                         let cityHumidity = data.main.humidity;
@@ -119,7 +119,7 @@ function getCurrentWeather(searchTermEl){
         $("#card-container").empty();
         //get data for 5 day forecast
         fetch (
-            `http://api.openweathermap.org/data/2.5/forecast?q=${searchTermEl}&appid=519a795400f3f1c248480dfcc8e3bf80&units=imperial`
+            `https://api.openweathermap.org/data/2.5/forecast?q=${searchTermEl}&appid=519a795400f3f1c248480dfcc8e3bf80&units=imperial`
             )
             .then(function(response){
                 return response.json();
@@ -141,7 +141,7 @@ function getCurrentWeather(searchTermEl){
                                 //console.log(forecastImg);
                                 
                                 //getting icon from the url and adding the type of icon to the end of it
-                                let icon = "http://openweathermap.org/img/w/" + forecastImg + ".png";
+                                let icon = "https://openweathermap.org/img/w/" + forecastImg + ".png";
 
                                 let forecastHumidity = data.list[i].main.humidity;
                                 //console.log(forecastHumidity);

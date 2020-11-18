@@ -1,5 +1,4 @@
 
-
 //getting current date - learned off stack overflow resource
 //new date object
 var today = new Date();
@@ -214,3 +213,4 @@ function getCurrentWeather(searchTermEl){
 
 
     search();
+

@@ -1,3 +1,5 @@
+
+
 //getting current date - learned off stack overflow resource
 //new date object
 var today = new Date();
@@ -6,12 +8,21 @@ var today = new Date();
 var date =  (today.getMonth()+ 1) + '/' + today.getDate() + '/' + today.getFullYear();
 //console.log to verify date shows in format I need
 //console.log(date);
+var storage = [];
+var previousSearchTerms = JSON.parse(localStorage.getItem("cities"));
+if(previousSearchTerms !== null){
+    storage = previousSearchTerms;
+};
 
+displayPreviousSearches(storage);
+
+
+console.log(previousSearchTerms);
 //Function get get UV Index
 function getUVIndex(cityLat,cityLon, cityName, date, iconDisplay, cityTemperature, cityHumidity, cityWindSpeed){
 
     fetch(
-        `http://api.openweathermap.org/data/2.5/uvi?lat=${cityLat}&lon=${cityLon}&appid=519a795400f3f1c248480dfcc8e3bf80`
+        `https://api.openweathermap.org/data/2.5/uvi?lat=${cityLat}&lon=${cityLon}&appid=519a795400f3f1c248480dfcc8e3bf80`
     )
     .then (function(response){
         return response.json();
@@ -20,22 +31,18 @@ function getUVIndex(cityLat,cityLon, cityName, date, iconDisplay, cityTemperatur
         console.log(data)
         //getting UV index value
         let index = data.value;
-
-          
-        /*${
-            (() => {
-                if (index < 3){
-                    return `<div class = "bg-success">UV Index: ${index}</div>`
-                }
-                else if(index < 7){
-                    `return <div class = "bg-warning">UV Index: ${index}</div>`
-                }
-                else{
-                    `return <div class = "bg-danger">UV Index: ${index}</div>`
-                }
-            }
-            )}*/
         
+        //ternary operator for template literals
+        //let indexColors = `<div class=${index < 3 ? 'bg-success' : 'bg-warning'}>UV Index: ${index}</div>`
+        let indexColors = 
+        (index < 3 ? `<div class=bg-success>UV Index: ${index}</div>` : 
+        index < 7 ? `<div class=bg-warning>UV Index: ${index}</div>` : 
+        index >= 7 ? `<div class=bg-danger>UV Index: ${index}</div>`:
+        null
+        );
+
+        console.log(indexColors);
+
         let currentWeatherSection = $("#current-weather");
         //creating card
         let currentWeatherData = 
@@ -48,7 +55,7 @@ function getUVIndex(cityLat,cityLon, cityName, date, iconDisplay, cityTemperatur
                         <div>Temperature: ${cityTemperature}°</div>
                         <div>Humidity: ${cityHumidity} %</div>
                         <div>Wind Speed: ${cityWindSpeed} MPH</div>
-                        <div>UV Index: ${index}</div>
+                        ${indexColors}
                         </div>
                         </br>
                         `
@@ -60,15 +67,15 @@ function getUVIndex(cityLat,cityLon, cityName, date, iconDisplay, cityTemperatur
 
 
 //Function to display Current Weather
-function getCurrentWeather(){
-    var searchTermEl = $("#city-name").val().trim();
+function getCurrentWeather(searchTermEl){
+    dailyForecast(searchTermEl)
     event.preventDefault();
 
     //clears out current weather section for new search
     $("#current-weather").empty();
     
     fetch (
-        `http://api.openweathermap.org/data/2.5/weather?q=${searchTermEl}&appid=519a795400f3f1c248480dfcc8e3bf80&units=imperial`
+        `https://api.openweathermap.org/data/2.5/weather?q=${searchTermEl}&appid=519a795400f3f1c248480dfcc8e3bf80&units=imperial`
         )
         .then(function(response){
             return response.json();
@@ -96,7 +103,7 @@ function getCurrentWeather(){
                         let cityTemperature = data.main.temp;
                         let cityHumidity = data.main.humidity;
                         let cityWindSpeed = data.wind.speed;       
-                        getUVIndex(cityLat,cityLon, cityName, cityIcon, iconDisplay,cityTemperature,cityHumidity,cityWindSpeed);
+                        getUVIndex(cityLat, cityLon, cityName, date, iconDisplay,cityTemperature,cityHumidity,cityWindSpeed);
                         //currentWeatherSection.append(currentWeatherData);
             
         });
@@ -105,9 +112,8 @@ function getCurrentWeather(){
     
     
     //Function to display Daily Forecast
-    function dailyForecast(){
+    function dailyForecast(searchTermEl){
         //get element input
-        var searchTermEl = $("#city-name").val().trim();
         event.preventDefault();
 
         //clears out cards for new search
@@ -162,28 +168,49 @@ function getCurrentWeather(){
             })
     };
     
-    
+
+    //jquery event listener, only fires if LI element is clicked
+    $("#previous-search").on("click", "li", function(){
+        console.log("clicked");
+        //getting the city name text value
+        getCurrentWeather($(this).text());
+    })
+
+
     function search (){  
     $(".search").click(function(){
-        //console.log("clicked");
-        getCurrentWeather(); 
-        dailyForecast();
-    
+        
         var searchTermEl = $("#city-name").val().trim();
+        getCurrentWeather(searchTermEl); 
+    
+        storage.push(searchTermEl);
         event.preventDefault();
     
         //save to search history
         var previousSearch = $("#previous-search");
         let searchHistory = `
-        <li class = "border bg-white">${searchTermEl}</li>
+        <li class = "border bg-white saved">${searchTermEl}</li>
         `
         previousSearch.append(searchHistory);
 
-            localStorage.setItem("cities", searchTermEl);
-            localStorage.getItem(searchTermEl);
+        localStorage.setItem("cities", JSON.stringify(storage));
+        localStorage.getItem(searchTermEl);
         
         
      });
     }
+
+    function displayPreviousSearches (storage){
+        var previousSearch = $("#previous-search");
+         let searchHistory;
+       
+        for( var i = 0; i < storage.length; i ++){
+            searchHistory = `
+                    <li class = "border bg-white saved">${storage[i]}</li>
+                    `
+             previousSearch.append(searchHistory);
+        }
+    }
+
 
     search();
